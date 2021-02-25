@@ -4,5 +4,5 @@ This is a project that uses Convolutional Neural Networks, that is made using Te
 
 # Next Steps:
 
-- Use the predictions of the model for real-time predictions
+- Use the model for real-time predictions
 - Experiment with different model architectures for optimal performance
