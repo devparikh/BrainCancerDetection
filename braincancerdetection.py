@@ -8,7 +8,7 @@ from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Activation, Fla
 train_path = "C:\\Users\\me\\Documents\\BrainCancerDetection\\dataset\\Training"
 test_path = "C:\\Users\\me\\Documents\\BrainCancerDetection\\dataset\\Testing"
 
-img_size = 500
+img_size = 512
 batch_size = 32
 epochs = 10
 
