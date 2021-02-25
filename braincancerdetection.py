@@ -39,6 +39,7 @@ model.add(MaxPooling2D((2,2)))
 model.add(Conv2D(64,(3,3)))
 model.add(Activation("relu"))
 model.add(MaxPooling2D((2,2)))
+model.add(Dropout(0.3))
 
 model.add(Conv2D(64,(3,3)))
 model.add(Activation("relu"))
