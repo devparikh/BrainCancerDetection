@@ -1,5 +1,5 @@
 # BrainCancerDetection
-This is a project that uses Convolutional Neural Networks, that is made using Tensorflow and Keras to classify 4 different types of Brain Cancers. They are glioma tumors,  meningioma tumors, no tumors, and pituitary tumors. 
+This is a project that uses Convolutional Neural Networks, that is made using Tensorflow and Keras to classify 4 different types of Brain Cancers. They are glioma tumors,  meningioma tumors, no tumors, and pituitary tumors. This is the initial version of my CNN, I will be updating the code. 
 
 
 # Next Steps:
