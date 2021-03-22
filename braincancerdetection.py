@@ -1,6 +1,6 @@
 # importing dependencies
 import tensorflow as tf
-import numpy as np
+import cv2
 import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
@@ -13,6 +13,16 @@ img_size = 500
 batch_size = 32
 epochs = 10
 
+# prints an image from each class of the 4 different types of brain tumors
+for category in classes:
+    new_train_path = os.path.join(train_path, category)
+
+    for data in listdir(new_train_path):
+        train_data = cv2.imread(os.path.join(new_train_path, data))
+    
+    print(category)
+    cv2.imshow(data) 
+    
 # Data Augmentation
 train_datagen = ImageDataGenerator(rescale=1./255, 
                                 horizontal_flip=True, 
@@ -22,7 +32,7 @@ train_datagen = ImageDataGenerator(rescale=1./255,
                                 width_shift_range=0.15,
                                 height_shift_range=0.15)
 
-train_set = train_datagen.flow_from_directory(directory=train_path,
+training_set = train_datagen.flow_from_directory(directory=train_path,
                                                     batch_size=batch_size,
                                                     color_mode = "grayscale",
                                                     shuffle=True,
@@ -31,7 +41,7 @@ train_set = train_datagen.flow_from_directory(directory=train_path,
 # scaling only for the testing set
 test_datagen = ImageDataGenerator(rescale=1./255)
 
-test_set = test_datagen.flow_from_directory(directory=test_path,
+testing_set = test_datagen.flow_from_directory(directory=test_path,
                                                     batch_size=batch_size,
                                                     shuffle=True,
                                                     color_mode = "grayscale",
@@ -64,6 +74,6 @@ model.compile(optimizer="adam",
               loss="categorical_crossentropy",
               metrics=["accuracy"])
 
-model.fit(train_set, batch_size=batch_size,epochs=epochs, validation=test_set) 
+model.fit(training_set, batch_size=batch_size,epochs=epochs, validation=testing_set) 
 # saving the model
 model.save("model.h5")
