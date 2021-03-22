@@ -56,4 +56,4 @@ model.compile(optimizer="adam",
               loss="categorical_crossentropy",
               metrics=["accuracy"])
 
-model.fit(train_set, batch_size=batch_size,epochs=epochs) 
+model.fit(train_set, batch_size=batch_size,epochs=epochs, validation=test_set) 
