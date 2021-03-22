@@ -1,6 +1,7 @@
 # importing dependencies
 import tensorflow as tf
 import cv2
+import os
 import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
@@ -13,16 +14,17 @@ img_size = 500
 batch_size = 32
 epochs = 10
 
-# prints an image from each class of the 4 different types of brain tumors
+classes = ["glioma_tumor", "meningioma_tumor", "no_tumor", "pituitary_tumor"]
+# printing an image from each class
 for category in classes:
     new_train_path = os.path.join(train_path, category)
 
-    for data in listdir(new_train_path):
+    for data in os.listdir(new_train_path):
         train_data = cv2.imread(os.path.join(new_train_path, data))
     
     print(category)
-    cv2.imshow(data) 
-    
+    cv2.imshow(data)
+   
 # Data Augmentation
 train_datagen = ImageDataGenerator(rescale=1./255, 
                                 horizontal_flip=True, 
