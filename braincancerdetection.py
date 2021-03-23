@@ -10,7 +10,7 @@ from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Activation, Fla
 train_path = "C:\\Users\\me\\Documents\\BrainCancerDetection\\dataset\\Training"
 test_path = "C:\\Users\\me\\Documents\\BrainCancerDetection\\dataset\\Testing"
 
-img_size = 500
+img_size = 224
 batch_size = 32
 epochs = 10
 
@@ -72,10 +72,11 @@ model.add(Activation("relu"))
 model.add(Dense(4))
 model.add(Activation("softmax"))
 
-model.compile(optimizer="adam",
+model.compile(optimizer=Adam(1e-5),
               loss="categorical_crossentropy",
               metrics=["accuracy"])
 
-model.fit(training_set, batch_size=batch_size,epochs=epochs, validation=testing_set) 
+# Training my model
+model.fit(training_set, batch_size=batch_size,epochs=epochs, validation_data=testing_set) 
 # saving the model
 model.save("model.h5")
