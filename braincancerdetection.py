@@ -52,7 +52,7 @@ testing_set = test_datagen.flow_from_directory(directory=test_path,
 
 # creating the model architecture for brain cancer classification
 model = Sequential()
-model.add(Conv2D(32,(3,3),input_shape=(img_size,img_size,3)))
+model.add(Conv2D(32,(3,3),input_shape=(img_size,img_size,1)))
 model.add(Activation("relu"))
 model.add(MaxPooling2D((2,2)))
 
