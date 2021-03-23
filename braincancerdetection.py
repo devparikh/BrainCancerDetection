@@ -72,6 +72,7 @@ model.add(Activation("relu"))
 model.add(Dense(4))
 model.add(Activation("softmax"))
 
+# 1e-5 is the learning rate for the model
 model.compile(optimizer=Adam(1e-5),
               loss="categorical_crossentropy",
               metrics=["accuracy"])
