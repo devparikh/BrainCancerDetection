@@ -6,3 +6,5 @@ This is a project that uses Convolutional Neural Networks, that is made using Te
 
 - Use the model for real-time predictions
 - Experiment with different model architectures for optimal performance
+- Use different algorithms to make it easier for the model to classify brain tumors
+- Use Segmentation to locate where the tumor are in the brain 
