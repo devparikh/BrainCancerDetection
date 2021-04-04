@@ -15,4 +15,4 @@ This is my dataset but not it is contoured which segmented the different parts o
 
 - Use the model for real-time predictions
 - Experiment with different model architectures for optimal performance
-- Use different techniques in order to be able to do special preprocessing so that this data is enhanced and the model can achieve greater accuracies
+
