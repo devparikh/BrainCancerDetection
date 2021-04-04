@@ -13,7 +13,7 @@ test_path = "C:\\Users\\me\\Documents\\BrainCancerDetection\\dataset\\Testing"
 img_size = 224
 batch_size = 32
 epochs = 10
-
+    
 classes = ["glioma_tumor", "meningioma_tumor", "no_tumor", "pituitary_tumor"]
 # printing an image from each class
 for category in classes:
@@ -21,24 +21,22 @@ for category in classes:
 
     for data in os.listdir(new_train_path):
         train_data = cv2.imread(os.path.join(new_train_path, data))
-    
-    print(category)
-    cv2.imshow(data)
-   
-# Data Augmentation
-train_datagen = ImageDataGenerator(rescale=1./255, 
-                                horizontal_flip=True, 
-                                rotation_range=20,
-                                shear_range=0.4,
-                                zoom_range=0.5,
-                                width_shift_range=0.15,
-                                height_shift_range=0.15)
 
-training_set = train_datagen.flow_from_directory(directory=train_path,
-                                                    batch_size=batch_size,
-                                                    color_mode = "grayscale",
-                                                    shuffle=True,
-                                                    target_size=(img_size, img_size))
+        train_data = cv2.resize(train_data, (img_size, img_size))
+        train_data_gray = cv2.cvtColor(train_data, cv2.COLOR_RGB2GRAY)
+        # we are thresholding the image between 50 and 255 so that there is a white segment so that we can see the actually brain mri scan
+        ret, train_data_gray = cv2.threshold(train_data_gray, 50, 255, cv2.THRESH_BINARY)
+        # chain approx simple just removes all points that are useless and compresses the contour which saves memory
+        # a hierarchy is when contours have relationships with other contours generally it is the relationship between the parent contour(outer contour and the child contour(the inner contour)
+        contour, hierarchy = cv2.findContours(train_data_gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+        # the -1 will get all of the countours that are in the grayscale image
+        # the other parameter is the colour of the line that is created from the contour
+        # the 1 which is the last parameter is the thickness of the contour line
+        cv2.drawContours(train_data, contour, -1, (255, 0, 0), 1)
+
+
+    print(category)
+    cv2_imshow(train_data)
 
 # scaling only for the testing set
 test_datagen = ImageDataGenerator(rescale=1./255)
