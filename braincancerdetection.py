@@ -24,10 +24,10 @@ for category in classes:
 
         train_data = cv2.resize(train_data, (img_size, img_size))
         train_data_gray = cv2.cvtColor(train_data, cv2.COLOR_RGB2GRAY)
-        # we are thresholding the image between 50 and 255 so that there is a white segment so that we can see the actually brain mri scan
+        # we are thresholding the image between 50 and 255 so that there is a white segment so that we can see the actual brain mri scan
         ret, train_data_gray = cv2.threshold(train_data_gray, 50, 255, cv2.THRESH_BINARY)
         # chain approx simple just removes all points that are useless and compresses the contour which saves memory
-        # a hierarchy is when contours have relationships with other contours generally it is the relationship between the parent contour(outer contour and the child contour(the inner contour)
+        # a hierarchy is when contours have relationships with other contours generally it is the relationship between the parent contour(outer contour) and the child contour(the inner contour)
         contour, hierarchy = cv2.findContours(train_data_gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
         # the -1 will get all of the countours that are in the grayscale image
         # the other parameter is the colour of the line that is created from the contour
