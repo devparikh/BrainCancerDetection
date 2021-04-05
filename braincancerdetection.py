@@ -21,11 +21,18 @@ for category in classes:
 
     for data in os.listdir(new_train_path):
         train_data = cv2.imread(os.path.join(new_train_path, data))
-
+        
+      
         train_data = cv2.resize(train_data, (img_size, img_size))
+        
+         # we have a gaussian blur that has a 5x5 gaussian kernel that runs over the image and the SigmaX is calculated from the kernel and the SigmaY is calculated from SigmaX
+        train_data = cv2.GaussianBlur(train_data, (5,5), 0)
+        # converting to grayscale
         train_data_gray = cv2.cvtColor(train_data, cv2.COLOR_RGB2GRAY)
+        
         # we are thresholding the image between 50 and 255 so that there is a white segment so that we can see the actual brain mri scan
         ret, train_data_gray = cv2.threshold(train_data_gray, 50, 255, cv2.THRESH_BINARY)
+        
         # chain approx simple just removes all points that are useless and compresses the contour which saves memory
         # a hierarchy is when contours have relationships with other contours generally it is the relationship between the parent contour(outer contour) and the child contour(the inner contour)
         contour, hierarchy = cv2.findContours(train_data_gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
