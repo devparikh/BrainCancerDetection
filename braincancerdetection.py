@@ -66,10 +66,7 @@ for category in classes:
         
         # adding images to training data
         training_data.append(train_data)
-    
-
-
-    
+        
     print(category)
     cv2_imshow(train_data)
     print(class_num)
