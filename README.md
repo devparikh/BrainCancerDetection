@@ -11,6 +11,8 @@ I thresholded some my images so that I we can better distingush the actual brain
 
 This is my dataset but not it is contoured which segmented the different parts of the mri scan.
 
+I am currently working on implementing this model so that we can get real-time predictions and also training it at higher accuracies after data preprocessing.
+
 # Next Steps:
 
 - Use the model for real-time predictions
