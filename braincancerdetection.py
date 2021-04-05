@@ -1,18 +1,45 @@
 # importing dependencies
 import tensorflow as tf
 import cv2
+import numpy as np
 import os
-import matplotlib.pyplot as plt
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Activation, Flatten, Dropout
 
-train_path = "C:\\Users\\me\\Documents\\BrainCancerDetection\\dataset\\Training"
-test_path = "C:\\Users\\me\\Documents\\BrainCancerDetection\\dataset\\Testing"
-
-img_size = 224
-batch_size = 32
+img_size = 256
 epochs = 10
+BATCH_SIZE = 32
+
+train_path = "//content//Training"
+test_path = "//content//Testing"
+
+train_datagen = ImageDataGenerator(rescale=1./255, 
+                                horizontal_flip=True,
+                                vertical_flip=True, 
+                                rotation_range=20,
+                                shear_range=0.4,
+                                zoom_range=0.7,
+                                width_shift_range=0.2,
+                                height_shift_range=0.2)
+
+training_set = train_datagen.flow_from_directory(directory=train_path,
+                                                    batch_size=BATCH_SIZE,
+                                                    color_mode = "grayscale",
+                                                    classes = ["glioma_tumor", "meningioma_tumor", "no_tumor", "pituitary_tumor"],
+                                                    shuffle=True,
+                                                    target_size=(img_size, img_size))
+
+# scaling only for the testing set
+test_datagen = ImageDataGenerator(rescale=1./255)
+
+testing_set = test_datagen.flow_from_directory(directory=test_path,
+                                                    batch_size=BATCH_SIZE,
+                                                    shuffle=True,
+                                                    classes = ["glioma_tumor", "meningioma_tumor", "no_tumor", "pituitary_tumor"],
+                                                    color_mode = "grayscale",
+                                                    target_size=(img_size, img_size))
+
     
 classes = ["glioma_tumor", "meningioma_tumor", "no_tumor", "pituitary_tumor"]
 # printing an image from each class
