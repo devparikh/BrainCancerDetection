@@ -11,7 +11,7 @@ I thresholded some my images so that I we can better distingush the actual brain
 
 This is my dataset but not it is contoured which segmented the different parts of the mri scan.
 
-I have currently reached the accuracy of about 80% on my training set, although my test set is performing quite poorly so I need to look into how I can prevent more overfitting. 
+I have currently reached the accuracy of about 98% on my training set, although my test set is performing quite poorly so I need to look into how I can prevent more overfitting. I think that this is occuring due to a problem in the data that Iam tryint to find.
 
 # Next Steps:
 
