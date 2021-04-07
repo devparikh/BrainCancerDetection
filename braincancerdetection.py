@@ -14,17 +14,7 @@ BATCH_SIZE = 32
 train_path = "//content//Training"
 test_path = "//content//Testing"
 
-# scaling only for the testing set
-test_datagen = ImageDataGenerator(rescale=1./255)
 
-testing_set = test_datagen.flow_from_directory(directory=test_path,
-                                                    batch_size=BATCH_SIZE,
-                                                    shuffle=True,
-                                                    classes = ["glioma_tumor", "meningioma_tumor", "no_tumor", "pituitary_tumor"],
-                                                    color_mode = "grayscale",
-                                                    target_size=(img_size, img_size))
-
-    
 classes = ["glioma_tumor",  "meningioma_tumor",  "no_tumor", "pituitary_tumor"]
 
 classes_value = {0: "giloma_tumor",  1: "meningioma_tumor",  2:"no_tumor", 3:"pituitary_tumor"}
@@ -67,6 +57,46 @@ for category in classes:
         # adding images to training data
         training_data.append(train_data)
         
+    print(category)
+    cv2_imshow(train_data)
+    print(class_num)
+    
+test_labels = []
+testing_data = []
+# printing an image from each class
+for category in classes:
+    new_test_path = os.path.join(test_path, category)
+    class_num = classes.index(category)
+    for data in os.listdir(new_test_path):
+        test_data = cv2.imread(os.path.join(new_test_path, data))
+        # we have a gaussian blur that has a 5x5 gaussian kernel that runs over the image and the SigmaX is calculated from the kernel and the SigmaY is calculated from SigmaX
+        test_data = cv2.GaussianBlur(test_data, (5,5), 0)
+
+        test_data = cv2.resize(test_data, (img_size, img_size))
+        test_data_gray = cv2.cvtColor(test_data, cv2.COLOR_RGB2GRAY)
+        # we are thresholding the image between 50 and 255 so that there is a white segment so that we can see the actually brain mri scan
+        ret, test_data_gray  = cv2.threshold(test_data_gray, 50, 255, cv2.THRESH_BINARY)
+        # chain approx simple just removes all points that are useless and compresses the contour which saves memory
+        contour, hierarchy = cv2.findContours(test_data_gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+        # the -1 will get all of the countours that are in the grayscale image
+        # the other parameter is the colour of the line that is created from the contour
+        # the 1 which is the last parameter is the thickness of the contour line
+        cv2.drawContours(test_data, contour, -1, (255,255,0), 1)
+         # converting train_data to grayscale
+        test_data = cv2.cvtColor(test_data, cv2.COLOR_RGB2GRAY)
+
+        
+        if classes.index(category) == 0:
+          test_labels.append([1,0,0,0])
+        elif classes.index(category) == 1:
+          test_labels.append([0,1,0,0])
+        elif classes.index(category) == 2:
+          test_labels.append([0,0,1,0])
+        elif classes.index(category) == 3:
+          test_labels.append([0,0,0,1])
+
+        testing_data.append(test_data)
+    
     print(category)
     cv2_imshow(train_data)
     print(class_num)
