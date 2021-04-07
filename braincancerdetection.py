@@ -64,6 +64,7 @@ for category in classes:
 test_labels = []
 testing_data = []
 # printing an image from each class
+# here I am doing the same preprocessing but for the test set
 for category in classes:
     new_test_path = os.path.join(test_path, category)
     class_num = classes.index(category)
