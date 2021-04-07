@@ -75,9 +75,6 @@ for category in classes:
 training_data = np.array(training_data)
 labels = np.array(labels)
 
-tf.stack(training_dataset)
-tf.stack(labels)
-
 # reshaping the training data so that it can be taken for input by the model
 training_data = np.reshape(training_data, (2870, 256,256, 1))
 
