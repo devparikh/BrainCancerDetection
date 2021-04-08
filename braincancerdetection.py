@@ -18,89 +18,60 @@ test_path = "//content//Testing"
 classes = ["glioma_tumor",  "meningioma_tumor",  "no_tumor", "pituitary_tumor"]
 
 classes_value = {0: "giloma_tumor",  1: "meningioma_tumor",  2:"no_tumor", 3:"pituitary_tumor"}
+
+# defining the features and labels sets for training data
 labels = []
 training_data = []
 
-# printing an image from each class
-for category in classes:
-    new_train_path = os.path.join(train_path, category)
-    # this is used to print all of the different categories the image is in
-    class_num = classes.index(category)
-    for data in os.listdir(new_train_path):
-        train_data = cv2.imread(os.path.join(new_train_path, data))
-        # we have a gaussian blur that has a 5x5 gaussian kernel that runs over the image and the SigmaX is calculated from the kernel and the SigmaY is calculated from SigmaX
-        train_data = cv2.GaussianBlur(train_data, (5,5), 0)
-
-        train_data = cv2.resize(train_data, (img_size, img_size))
-        train_data_gray = cv2.cvtColor(train_data, cv2.COLOR_RGB2GRAY)
-        # we are thresholding the image between 50 and 255 so that there is a white segment so that we can see the actually brain mri scan
-        ret, train_data_gray  = cv2.threshold(train_data_gray, 50, 255, cv2.THRESH_BINARY)
-        # chain approx simple just removes all points that are useless and compresses the contour which saves memory
-        contour, hierarchy = cv2.findContours(train_data_gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-        # the -1 will get all of the countours that are in the grayscale image
-        # the other parameter is the colour of the line that is created from the contour
-        # the 1 which is the last parameter is the thickness of the contour line
-        cv2.drawContours(train_data, contour, -1, (255,255,0), 1)
-         # converting train_data to grayscale
-        train_data = cv2.cvtColor(train_data, cv2.COLOR_RGB2GRAY)
-
-        # here we are checking for the class and if it is a certain class then we do one-hot encoding for it
-        if classes.index(category) == 0:
-          labels.append([1,0,0,0])
-        elif classes.index(category) == 1:
-          labels.append([0,1,0,0])
-        elif classes.index(category) == 2:
-          labels.append([0,0,1,0])
-        elif classes.index(category) == 3:
-          labels.append([0,0,0,1])
-        
-        # adding images to training data
-        training_data.append(train_data)
-        
-    print(category)
-    cv2_imshow(train_data)
-    print(class_num)
-    
-test_labels = []
+# defining the features and labels sets for testing data
 testing_data = []
-# printing an image from each class
-# here I am doing the same preprocessing but for the test set
-for category in classes:
-    new_test_path = os.path.join(test_path, category)
-    class_num = classes.index(category)
-    for data in os.listdir(new_test_path):
-        test_data = cv2.imread(os.path.join(new_test_path, data))
-        # we have a gaussian blur that has a 5x5 gaussian kernel that runs over the image and the SigmaX is calculated from the kernel and the SigmaY is calculated from SigmaX
-        test_data = cv2.GaussianBlur(test_data, (5,5), 0)
+test_labels = []
 
-        test_data = cv2.resize(test_data, (img_size, img_size))
-        test_data_gray = cv2.cvtColor(test_data, cv2.COLOR_RGB2GRAY)
-        # we are thresholding the image between 50 and 255 so that there is a white segment so that we can see the actually brain mri scan
-        ret, test_data_gray  = cv2.threshold(test_data_gray, 50, 255, cv2.THRESH_BINARY)
-        # chain approx simple just removes all points that are useless and compresses the contour which saves memory
-        contour, hierarchy = cv2.findContours(test_data_gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
-        # the -1 will get all of the countours that are in the grayscale image
-        # the other parameter is the colour of the line that is created from the contour
-        # the 1 which is the last parameter is the thickness of the contour line
-        cv2.drawContours(test_data, contour, -1, (255,255,0), 1)
-         # converting train_data to grayscale
-        test_data = cv2.cvtColor(test_data, cv2.COLOR_RGB2GRAY)
+def preprocessing_data(categories, dataset_path, label_set, datalist):
+  # printing an image from each class
+  for category in categories:
+      new_dataset_path = os.path.join(dataset_path, category)
+      class_num = classes.index(category)
+      for data in os.listdir(new_dataset_path):
+          image = cv2.imread(os.path.join(new_dataset_path, data))
+          # we have a gaussian blur that has a 5x5 gaussian kernel that runs over the image and the SigmaX is calculated from the kernel and the SigmaY is calculated from SigmaX
+          image  = cv2.GaussianBlur(image, (5,5), 0)
 
-        
-        if classes.index(category) == 0:
-          test_labels.append([1,0,0,0])
-        elif classes.index(category) == 1:
-          test_labels.append([0,1,0,0])
-        elif classes.index(category) == 2:
-          test_labels.append([0,0,1,0])
-        elif classes.index(category) == 3:
-          test_labels.append([0,0,0,1])
+          image = cv2.resize(image, (img_size, img_size))
+          image_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+          # we are thresholding the image between 50 and 255 so that there is a white segment so that we can see the actually brain mri scan
+          ret, image_gray  = cv2.threshold(image_gray, 50, 255, cv2.THRESH_BINARY)
+          # chain approx simple just removes all points that are useless and compresses the contour which saves memory
+          contour, hierarchy = cv2.findContours(image_gray, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_SIMPLE)
+          # the -1 will get all of the countours that are in the grayscale image
+          # the other parameter is the colour of the line that is created from the contour
+          # the 1 which is the last parameter is the thickness of the contour line
+          cv2.drawContours(image, contour, -1, (255,255,0), 1)
+          # converting train_data to grayscale
+          image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 
-        testing_data.append(test_data)
-    
-    print(category)
-    cv2_imshow(train_data)
-    print(class_num)
+          
+          if classes.index(category) == 0:
+            label_set.append([1,0,0,0])
+          elif classes.index(category) == 1:
+            label_set.append([0,1,0,0])
+          elif classes.index(category) == 2:
+            label_set.append([0,0,1,0])
+          elif classes.index(category) == 3:
+            label_set.append([0,0,0,1])
+
+          datalist.append(image)
+      
+
+
+      
+      print(category)
+      cv2_imshow(image)
+      print(class_num)
+
+# doing the preprocessing for the training and testing set by running the function
+preprocessing_data(classes,train_path, labels, training_data)
+preprocessing_data(classes,test_path, test_labels, testing_data)
 
 # converting these lists into numpy arrays
 training_data = np.array(training_data)
