@@ -17,4 +17,5 @@ I have currently reached the accuracy of about 97% on my training set, although 
 
 - Use the model for real-time predictions
 - Experiment with different model architectures for optimal performance
+- perform data augmentation so that we can increase the validation accuracy and prevent overfitting
 
