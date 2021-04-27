@@ -14,7 +14,9 @@ This is my dataset but not it is contoured which segmented the different parts o
 I have currently reached the accuracy of about 97% on my training set, although my test set is performing quite poorly at around 76% accuracy so I need to look into how I can prevent more overfitting. 
 
 If you want to learn more about this project you should check out my article and video on this project:
+
 Medium Article: https://devparikh21.medium.com/using-convolutional-neural-networks-to-diagnose-brain-cancer-938c897c7ce
+
 Youtube Video: https://www.youtube.com/watch?v=RTWGWcrpmog
 
 # Next Steps:
