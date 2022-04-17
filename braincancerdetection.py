@@ -62,9 +62,6 @@ def preprocessing_data(categories, dataset_path, label_set, datalist):
 
           datalist.append(image)
       
-
-
-      
       print(category)
       cv2_imshow(image)
       print(class_num)
@@ -79,8 +76,6 @@ labels = np.array(labels)
 
 # reshaping the training data so that it can be taken for input by the model
 training_data = np.reshape(training_data, (2870, 256,256, 1))
-
-
 
 # creating the model architecture for brain cancer classification
 model = Sequential()
